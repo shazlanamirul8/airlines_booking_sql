@@ -112,8 +112,8 @@ Real-world Analysis
 - Airlines can target this segment with loyalty rewards, upgrade offers, or extended-stay partnerships (e.g., hotel collaborations, car rental).
 - Although these customers might not travel frequently, they bring higher revenue per trip.
 
-#### Screenshot of teh Query
-![subquery_1](subquery_1.png)
+#### Screenshot of the Query
+![case_11](case_11.png)
 
 ### 2. How many Internet bookings have more passengers than the average number of passengers in Mobile bookings?
 
