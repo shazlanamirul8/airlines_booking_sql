@@ -86,4 +86,28 @@ Real-world Analysis
 ![case_2](case_2.png)
 
 ## SUBQUERY
-Work in progress
+
+### 1. Find all bookings where the length of stay is longer than the average stay, and show how many total bookings fall under this category and also the average of length of stay
+
+#### The Query
+```
+SELECT 	ID, 
+		num_passengers,
+        length_of_stay,
+        trip_type, 
+		(SELECT COUNT(*) FROM airlines_booking WHERE length_of_stay > (SELECT AVG(length_of_stay) FROM airlines_booking)) AS total_booking,
+        (SELECT ROUND(AVG(length_of_stay), 0) FROM airlines_booking) AS avg_length_of_stay
+FROM airlines_booking
+WHERE length_of_stay > (SELECT AVG(length_of_stay) FROM airlines_booking)
+ORDER BY length_of_stay DESC;
+```
+
+#### Insight
+The Result
+This query identifies all bookings where the trip’s length of stay is above the average across all customers. It also displays the overall number of bookings exceeding that average and the calculated average length of stay for context. Besides that, the result also depict the average of length of stay.
+
+Real-world Analysis
+- The data shows that 15,966 customers (around 32% of total bookings) have a length of stay longer than the average of 5 days.
+- Customers with longer stays are likely to have extended trips, vacations, or business stays, which often correlate with higher spending on add-ons like baggage or in-flight meals.
+- Airlines can target this segment with loyalty rewards, upgrade offers, or extended-stay partnerships (e.g., hotel collaborations).
+- Although these customers might not travel frequently, they bring higher revenue per trip — a valuable insight for optimizing marketing and partnership strategies.
