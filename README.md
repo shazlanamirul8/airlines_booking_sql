@@ -104,10 +104,50 @@ ORDER BY length_of_stay DESC;
 
 #### Insight
 The Result
-This query identifies all bookings where the trip’s length of stay is above the average across all customers. It also displays the overall number of bookings exceeding that average and the calculated average length of stay for context. Besides that, the result also depict the average of length of stay.
+This query identifies all bookings where the trip’s length of stay is above the average across all customers. It also displays the overall number of bookings exceeding that average and the calculated average length of stay for context. Besides that, the result also shows the average of length of stay.
 
 Real-world Analysis
-- The data shows that 15,966 customers (around 32% of total bookings) have a length of stay longer than the average of 5 days.
+- The data shows that 15,966 customers (around 32% of total bookings) have a length of stay longer than the average of 5 days. The longest customer stays up to 700 days.
 - Customers with longer stays are likely to have extended trips, vacations, or business stays, which often correlate with higher spending on add-ons like baggage or in-flight meals.
-- Airlines can target this segment with loyalty rewards, upgrade offers, or extended-stay partnerships (e.g., hotel collaborations).
-- Although these customers might not travel frequently, they bring higher revenue per trip — a valuable insight for optimizing marketing and partnership strategies.
+- Airlines can target this segment with loyalty rewards, upgrade offers, or extended-stay partnerships (e.g., hotel collaborations, car rental).
+- Although these customers might not travel frequently, they bring higher revenue per trip.
+
+#### Screenshot of teh Query
+![subquery_1](subquery_1.png)
+
+### 2. How many Internet bookings have more passengers than the average number of passengers in Mobile bookings?
+
+#### The Query
+```
+SELECT 
+    ID,
+    num_passengers,
+    sales_channel,
+    (SELECT ROUND(AVG(num_passengers), 0)
+     FROM airlines_booking
+     WHERE sales_channel = 'Mobile') AS avg_mobile_passengers,
+     (SELECT SUM(num_passengers) FROM airlines_booking WHERE sales_channel = 'internet') AS internet_booking,
+     (SELECT SUM(num_passengers) FROM airlines_booking WHERE sales_channel = 'mobile') AS mobile_booking
+FROM airlines_booking
+WHERE sales_channel = 'Internet'
+  AND num_passengers > (
+        SELECT AVG(num_passengers)
+        FROM airlines_booking
+        WHERE sales_channel = 'Mobile'
+  )
+ORDER BY num_passengers DESC;
+```
+
+#### Insight
+The Result
+The query identifies Internet bookings that exceed the average group size of Mobile bookings and provides the total passengers for each channel.
+
+Real-world Analysis
+- Average passengers per Mobile booking: 2
+- Total passengers via Mobile: 8,900
+- Total passengers via Internet: 70,662
+- Only 2 Internet bookings exceed the average Mobile booking size, indicating that larger groups predominantly book via Mobile.
+- Actionable Insight: Airlines could target Mobile users with group booking promotions or discounts to attract more large-group customers and increase overall revenue.
+
+#### Screenshot of the Query
+![subquery_2](subquery_2.png)
