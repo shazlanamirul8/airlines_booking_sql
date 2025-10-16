@@ -179,7 +179,7 @@ Real-world Analysis
 - From the result, 63% of booking from our customers are placed in solo group. That is more than half of our total booking.
 - 37% of booking consists 2 to 6 customers which have been categorized in 'small group'.
 - The lowest percentage of booking comes from large group travel category which is only 0.5%
-- The signifiant gap between large group and the other two groups indicate the potential of growth in this category.
+- The significant gap between large group and the other two groups indicate the potential of growth in this category.
 - In order to reduce the gap, we could consider offer promotion that involved with large group booking, collab with hotel booking for special price for large group.
 
 #### Screenshot of the Query
