@@ -151,3 +151,36 @@ Real-world Analysis
 
 #### Screenshot of the Query
 ![subquery_2](subquery_2.png)
+
+## RANK AND WINDOW FUNCTIONS
+
+### 1. Provide the ranking of number of passengers per booking size, categorized into Solo, Small Group, and Large Group, and show how many bookings fall under each passenger count
+
+#### The Query
+```
+SELECT 	RANK() OVER(ORDER BY num_passengers DESC) AS rank_number,
+		num_passengers,
+        COUNT(num_passengers) AS total_passengers,
+	CASE
+		WHEN num_passengers > 6 THEN 'Large Group'
+        WHEN num_passengers BETWEEN 2 AND 6 THEN 'Small Group'
+        ELSE 'Solo'
+	END AS `travel_category`
+FROM airlines_booking
+GROUP BY num_passengers
+ORDER BY total_passengers DESC;
+```
+
+#### Insight
+The Result
+The query ranks the total number of bookings based on travel group categories; Solo, Small Group, and Large Group. This ranking helps identify which type of booking contributes the most to overall sales volume.
+
+Real-world Analysis
+- From the result, 63% of booking from our customers are placed in solo group. That is more than half of our total booking.
+- 37% of booking consists 2 to 6 customers which have been categorized in 'small group'.
+- The lowest percentage of booking comes from large group travel category which is only 0.5%
+- The signifiant gap between large group and the other two groups indicate the potential of growth in this category.
+- In order to reduce the gap, we could consider offer promotion that involved with large group booking, collab with hotel booking for special price for large group.
+
+#### Screenshot of the Query
+![rank_1](rank_1.png)
