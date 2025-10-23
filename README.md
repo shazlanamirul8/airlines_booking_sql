@@ -108,6 +108,8 @@ This query identifies all bookings where the trip’s length of stay is above th
 
 Real-world Analysis
 - The data shows that 15,966 customers (around 32% of total bookings) have a length of stay longer than the average of 5 days. The longest customer stays up to 700 days.
+
+Conclusion
 - Customers with longer stays are likely to have extended trips, vacations, or business stays, which often correlate with higher spending on add-ons like baggage or in-flight meals.
 - Airlines can target this segment with loyalty rewards, upgrade offers, or extended-stay partnerships (e.g., hotel collaborations, car rental).
 - Although these customers might not travel frequently, they bring higher revenue per trip.
@@ -146,6 +148,8 @@ Real-world Analysis
 - Average passengers per Mobile booking: 2
 - Total passengers via Mobile: 8,900
 - Total passengers via Internet: 70,662
+
+Conclusion
 - Only 2 Internet bookings exceed the average Mobile booking size, indicating that larger groups predominantly book via Mobile.
 - Actionable Insight: Airlines could target Mobile users with group booking promotions or discounts to attract more large-group customers and increase overall revenue.
 
@@ -179,8 +183,41 @@ Real-world Analysis
 - From the result, 63% of booking from our customers are placed in solo group. That is more than half of our total booking.
 - 37% of booking consists 2 to 6 customers which have been categorized in 'small group'.
 - The lowest percentage of booking comes from large group travel category which is only 0.5%
+
+Conclusion
 - The significant gap between large group and the other two groups indicate the potential of growth in this category.
 - In order to reduce the gap, we could consider offer promotion that involved with large group booking, collab with hotel booking for special price for large group.
 
 #### Screenshot of the Query
 ![rank_1](rank_1.png)
+
+### 2. Write a query that lists each trip type and sales channel with the total completed bookings and ranks all combinations from highest to lowest.
+
+#### The Query
+```
+SELECT 
+	trip_type,
+    sales_channel,
+    COUNT(*) AS total_completed_bookings,
+    ROW_NUMBER() OVER(PARTITION BY trip_type ORDER BY COUNT(*) DESC) AS channel_rank
+FROM airlines_booking
+WHERE booking_complete = 1
+GROUP BY trip_type, sales_channel
+ORDER BY channel_rank;
+```
+
+#### Insight
+The query ranks sales channels for each trip type based on the total number of completed bookings, showing which channels are most popular for different trip types.
+
+Real-world Analysis
+- There are 5 bookings for circle trips, all completed via the Internet.
+- For one-way trips, 18 bookings are via Internet and 5 via Mobile.
+- The largest share comes from round-trip Internet bookings, totaling 6,846 bookings, while round-trip Mobile bookings are 607, still higher than other combinations.
+
+Conclusion:
+- Customers clearly prefer round-trip travel and mostly complete bookings through the Internet.
+- To leverage this demand, we can enhance our online booking system to make it even easier for customers to complete bookings.
+- There is also an opportunity to promote mobile app bookings, since current numbers are low, potentially by improving app usability or offering incentives.
+
+#### Screenshot of the Query
+![rank_2](rank_2.png)
