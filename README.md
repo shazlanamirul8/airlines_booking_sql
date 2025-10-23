@@ -107,7 +107,7 @@ The Result
 This query identifies all bookings where the trip’s length of stay is above the average across all customers. It also displays the overall number of bookings exceeding that average and the calculated average length of stay for context. Besides that, the result also shows the average of length of stay.
 
 Real-world Analysis
-- The data shows that 15,966 customers (around 32% of total bookings) have a length of stay longer than the average of 5 days. The longest customer stays up to 700 days.
+- The data shows that 15,966 customers (around 32% of total bookings) have a length of stay longer than the average of 23 days. The longest customer stays up to 700 days.
 
 Conclusion
 - Customers with longer stays are likely to have extended trips, vacations, or business stays, which often correlate with higher spending on add-ons like baggage or in-flight meals.
