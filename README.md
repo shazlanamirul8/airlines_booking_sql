@@ -29,7 +29,7 @@ SELECT
 	END AS travel_group, 
     COUNT(num_passengers) AS total_booking
 FROM airlines_booking
-GROUP BY travel_group,
+GROUP BY
 	CASE
 		WHEN num_passengers > 6 THEN 'Large Group'
         WHEN num_passengers BETWEEN 2 AND 5 THEN 'Small Group'
