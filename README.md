@@ -12,8 +12,8 @@ Below is how the dataset looks like on MySQL
 # PROJECT OBJECTIVE
 The goal of this project is to analyze airline booking patterns to uncover customer behavior and identify business opportunities. Using SQL, I explored passenger segmentation, service preferences, and booking trends to generate actionable insights for decision-making.
 
-# 20 ADVANCED QUERIES
-The advanced queries in this portfolio are CASE, subqueries, ranking and windonw function, aggregation and grouping, derived metrics, date/time analysis
+# ADVANCED QUERIES
+The advanced queries in this portfolio are CASE, subqueries, ranking and windonw function, aggregation and grouping.
 
 ## CASE
 
@@ -207,6 +207,7 @@ ORDER BY channel_rank;
 ```
 
 #### Insight
+The Result
 The query ranks sales channels for each trip type based on the total number of completed bookings, showing which channels are most popular for different trip types.
 
 Real-world Analysis
@@ -221,3 +222,91 @@ Conclusion:
 
 #### Screenshot of the Query
 ![rank_2](rank_2.png)
+
+## AGGREGATION + HAVING
+
+### 1. Find which sales channels have more than 500 completed bookings. For each qualifying channel, also calculate the average number of passengers per booking.
+
+#### The Query
+```
+SELECT 	sales_channel,
+		COUNT(*) AS total_booking,
+        ROUND(AVG(num_passengers), 0) AS avg_passengers
+FROM airlines_booking
+WHERE booking_complete = 1
+GROUP BY sales_channel
+HAVING COUNT(*) > 500;
+```
+
+#### Insight
+The Result
+The query shows average number of passengers for each sales channel with more than 500 booking complete.
+
+Real-world Analysis
+Out of 7,478 completed bookings, 92% with an average of 2 passengers are from the Internet sales channel, and 8% are from Mobile.
+
+Conclusion
+- A significant number of customers prefer using the Internet to book trips. Enhancing the online booking system could further improve completion rates.
+- We can also improve the mobile app experience to attract more customers to complete bookings via mobile.
+
+#### Screenshot of the Query
+![having_1](having_1.png)
+
+### 2. Find which booking origins have an average length of stay greater than 7 days, but only for completed round-trip bookings. For each qualifying origin, also show the total number of bookings. Make sure to handle any invalid data
+
+### The Query
+```
+SELECT	ROW_NUMBER() OVER(ORDER BY avg_length_of_stay DESC) AS ranking,
+		booking_origin,
+        total_booking,
+        avg_length_of_stay
+FROM (SELECT 	
+			booking_origin,
+			COUNT(*) AS total_booking,
+			ROUND(AVG(length_of_stay), 0) AS avg_length_of_stay
+	FROM airlines_booking
+	WHERE booking_complete = 1 AND trip_type = 'RoundTrip' AND booking_origin <> '(not set)'
+	GROUP BY booking_origin
+	HAVING AVG(length_of_stay) > 7 ) AS grouped_data
+ORDER BY ranking;
+```
+
+#### Insight
+The Result
+The query shows the average length of stay for each booking origin with total number of complete booking. It is also have been ranked based on the average length of stay.
+
+Real-world Analysis
+
+Part 1: Ranked by average length of stay
+- Average 16 bookings come from Chile, Switzerland, Bangladesh, Philippines and Norway with average length of stay more than 40 stays.
+- Average 189 bookings come from passengers from 21 different countries that have average length of stay between 20 to 40 days.
+- Average 161 bookings also come from 21 different countries that have average length of stay less than 20 days
+
+Conclusion
+- Focus premium or long-stay packages on low-volume, high-length destinations. Example package could be flight ticket with special discount for accomodation and also transportation.
+- Maintain services and promotions for moderate-length trips to sustain steady revenue.
+- Offer targeted promotions for short-trip travelers to boost repeat bookings.
+
+Part 2: Ranked by total complete booking
+- Malaysia is the most famous booking origin with total complete booking of 2462 out of 7478 (33%).
+- Other 46 booking origins have less than 900 complete booking
+
+Conclusion
+- Our strongest demand is from Malaysia in which
+- To capitalize on this demand, we should enhance services, promotions, and loyalty programs targeted at Malaysian travelers.
+- For other countries with lower booking numbers, there is an opportunity to grow market share through targeted marketing campaigns, localized promotions, and improved booking experiences.
+
+#### Screenshot of the Queries
+Part 1
+![havng_2](having_2.png)
+
+Part 2
+![having_2.1](having_2.1.png)
+
+# Overall Conclusion:
+Analyzing the airline booking dataset revealed clear patterns in customer behavior and business opportunities. Solo and small-group travelers make up the majority of bookings, indicating that promotions and services should focus on these segments. Round-trip bookings dominate, with the Internet as the preferred sales channel, highlighting the importance of maintaining a smooth online booking experience while improving mobile app usability to capture additional demand.
+
+Length-of-stay analysis shows that long-stay trips are fewer but represent opportunities for premium packages and loyalty programs, whereas short- and medium-length trips sustain steady revenue and can benefit from targeted promotions. Malaysia emerges as the top booking origin, accounting for a third of all completed bookings, suggesting that marketing and service efforts focused on this market could yield significant returns.
+
+Business Takeaway: By leveraging these insights, the airline can optimize marketing strategies, enhance booking platforms, design targeted promotions, and create specialized packages to drive higher engagement, increase bookings, and maximize revenue across diverse customer segments.
+ 
