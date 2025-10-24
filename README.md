@@ -13,7 +13,7 @@ Below is how the dataset looks like on MySQL
 The goal of this project is to analyze airline booking patterns to uncover customer behavior and identify business opportunities. Using SQL, I explored passenger segmentation, service preferences, and booking trends to generate actionable insights for decision-making.
 
 # ADVANCED QUERIES
-The advanced queries in this portfolio are CASE, subqueries, ranking and windonw function, aggregation and grouping.
+The advanced queries in this portfolio are CASE, subqueries, ranking and window function, aggregation and grouping.
 
 ## CASE
 
